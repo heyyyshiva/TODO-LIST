@@ -1,0 +1,790 @@
+:root {
+    --bg-color: #1a1a1a;
+    --card-bg: rgba(45, 45, 45, 0.8);
+    --text-color: #ffffff;
+    --border-color: rgba(64, 64, 64, 0.4);
+    --primary-color: #3498db;
+    --primary-hover: #2980b9;
+    --success-color: #2ecc71;
+    --success-hover: #27ae60;
+    --danger-color: #e74c3c;
+    --danger-hover: #c0392b;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    
+    /* Enhanced styling */
+    --gradient-primary: linear-gradient(135deg, #3498db, #2980b9);
+    --gradient-success: linear-gradient(135deg, #2ecc71, #27ae60);
+    --gradient-danger: linear-gradient(135deg, #e74c3c, #c0392b);
+    --todo-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    --input-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.app-wrapper {
+    background: rgba(23, 25, 35, 0.8);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+h2, h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Pomodoro Timer Styles */
+.pomodoro-section {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.timer-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.flipClock {
+    display: flex;
+    gap: 10px;
+    perspective: 400px;
+}
+
+.flipUnit {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    background: #333;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+.flipCard {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.flipCard.top {
+    background: #444;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.flipCard.bottom {
+    background: #333;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.flipNumber {
+    position: absolute;
+    width: 100%;
+    height: 200%;
+    left: 0;
+    text-align: center;
+    font-size: 60px;
+    font-weight: bold;
+    color: #fff;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top .flipNumber {
+    background: #444;
+    line-height: 200%;
+}
+
+.bottom .flipNumber {
+    bottom: 0;
+    line-height: 0;
+}
+
+.flipDivider {
+    color: #fff;
+    font-size: 60px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+@keyframes flipTop {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(-90deg); }
+}
+
+@keyframes flipBottom {
+    0% { transform: rotateX(90deg); }
+    100% { transform: rotateX(0deg); }
+}
+
+.flip-top {
+    transform-origin: bottom;
+    animation: flipTop 0.3s ease-in;
+}
+
+.flip-bottom {
+    transform-origin: top;
+    animation: flipBottom 0.3s ease-out;
+}
+
+.timer-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.timer-btn, .settings-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: var(--primary-color);
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.timer-btn:hover, .settings-btn:hover {
+    background: var(--primary-hover);
+}
+
+.timer-btn:disabled {
+    background: var(--border-color);
+    cursor: not-allowed;
+}
+
+.timer-mode {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.mode-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.statistics {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    background: var(--card-bg);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-label {
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-right: 10px;
+}
+
+/* Todo List Styles */
+.todo-section {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.todo-filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filter-group {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 25px;
+    background: var(--border-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.filter-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--todo-shadow);
+}
+
+.filter-btn.active {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.category-filter select,
+#task-priority,
+#task-category {
+    padding: 8px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+    padding-right: 40px;
+}
+
+.input-section {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+#todo-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    font-size: 1rem;
+    background: var(--card-bg);
+    color: var(--text-color);
+    box-shadow: var(--input-shadow);
+    transition: all 0.3s ease;
+}
+
+#todo-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+#add-button {
+    padding: 12px 25px;
+    background: var(--gradient-success);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+#add-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--bg-color);
+    border-radius: 12px;
+    gap: 15px;
+    transition: all 0.3s ease;
+    animation: slideIn 0.3s ease;
+    box-shadow: var(--todo-shadow);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.todo-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--shadow-color);
+}
+
+.todo-item.priority-high {
+    border-left: 4px solid var(--danger-color);
+}
+
+.todo-item.priority-medium {
+    border-left: 4px solid var(--primary-color);
+}
+
+.todo-item.priority-low {
+    border-left: 4px solid var(--success-color);
+}
+
+.todo-item.completed {
+    opacity: 0.7;
+    background: var(--border-color);
+}
+
+.todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.todo-text {
+    flex: 1;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.todo-category {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    background: var(--primary-color);
+    color: white;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.todo-actions button {
+    padding: 8px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: white;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.complete-btn {
+    background: var(--gradient-primary);
+}
+
+.delete-btn {
+    background: var(--gradient-danger);
+}
+
+.todo-actions button:hover {
+    transform: scale(1.1);
+}
+
+.todo-summary {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: var(--gradient-success);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+#completion-text {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* Priority indicators */
+.priority-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.priority-high .priority-indicator {
+    background: var(--danger-color);
+}
+
+.priority-medium .priority-indicator {
+    background: var(--primary-color);
+}
+
+.priority-low .priority-indicator {
+    background: var(--success-color);
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-color);
+    opacity: 0.6;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .input-section {
+        flex-direction: column;
+    }
+    
+    #todo-input {
+        width: 100%;
+    }
+    
+    .todo-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group {
+        justify-content: center;
+    }
+    
+    .category-filter {
+        width: 100%;
+    }
+    
+    .category-filter select {
+        width: 100%;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.setting-group input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+#save-settings {
+    background: var(--success-color);
+}
+
+#close-settings {
+    background: var(--danger-color);
+}
+
+/* Space Background */
+.space-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+    overflow: hidden;
+    z-index: -1;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shooting-star {
+    0% {
+        transform: translateX(0) translateY(0) rotate(45deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(1000px) translateY(1000px) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+@keyframes nebula-float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(10px, -10px); }
+}
+
+.star {
+    position: absolute;
+    background: #FFF;
+    border-radius: 50%;
+    filter: blur(1px);
+}
+
+.star.small {
+    width: 1px;
+    height: 1px;
+}
+
+.star.medium {
+    width: 2px;
+    height: 2px;
+}
+
+.star.large {
+    width: 3px;
+    height: 3px;
+}
+
+.shooting-star {
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+    border-radius: 50%;
+    animation: shooting-star 2s linear infinite;
+    filter: blur(1px);
+}
+
+.nebula {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.3;
+    animation: nebula-float 20s ease-in-out infinite;
+}
+
+.nebula.purple {
+    background: radial-gradient(circle at center, #9B4DCA, transparent);
+    top: 20%;
+    left: 10%;
+}
+
+.nebula.blue {
+    background: radial-gradient(circle at center, #4D9BCA, transparent);
+    bottom: 30%;
+    right: 15%;
+    animation-delay: -5s;
+}
+
+.planet {
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: inset -25px -25px 40px rgba(0,0,0,.5);
+}
+
+.planet.large {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    top: 15%;
+    right: 10%;
+    animation: rotate 60s linear infinite;
+}
+
+.planet.small {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #FFE66D, #FF6B6B);
+    bottom: 20%;
+    left: 15%;
+    animation: rotate 40s linear infinite reverse;
+}
+
+/* New Planets */
+.planet.ice {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(45deg, #2dd3c0, #89f7fe);
+    top: 40%;
+    left: 5%;
+    animation: rotate 50s linear infinite;
+    box-shadow: inset -15px -15px 40px rgba(0,0,0,.5),
+                0 0 20px rgba(45, 211, 192, 0.5);
+}
+
+.planet.gas {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(45deg, #c471ed, #f64f59);
+    bottom: 10%;
+    right: 20%;
+    animation: rotate 70s linear infinite reverse;
+    opacity: 0.8;
+}
+
+.planet.ringed {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(45deg, #ffd1ff, #fab2ff);
+    top: 60%;
+    right: 30%;
+    animation: rotate 55s linear infinite;
+}
+
+.planet.ringed::after {
+    content: '';
+    position: absolute;
+    width: 140px;
+    height: 30px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(15deg);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Add floating animation to all planets */
+.planet {
+    animation: float 20s ease-in-out infinite;
+}
+
+.planet.large { animation: rotate 60s linear infinite, float 20s ease-in-out infinite; }
+.planet.small { animation: rotate 40s linear infinite reverse, float 15s ease-in-out infinite; }
+.planet.ice { animation: rotate 50s linear infinite, float 18s ease-in-out infinite; }
+.planet.gas { animation: rotate 70s linear infinite reverse, float 25s ease-in-out infinite; }
+.planet.ringed { animation: rotate 55s linear infinite, float 22s ease-in-out infinite; }
+
+.moon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #DDD;
+    border-radius: 50%;
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,.5);
+    top: 30%;
+    left: 25%;
+}

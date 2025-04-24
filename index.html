@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Todo List with Pomodoro Timer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Enhanced Space Background -->
+    <div class="space-background" id="space-background">
+        <!-- Nebulas -->
+        <div class="nebula purple"></div>
+        <div class="nebula blue"></div>
+        
+        <!-- Planets -->
+        <div class="planet large"></div>
+        <div class="planet small"></div>
+        <div class="planet ice"></div>
+        <div class="planet gas"></div>
+        <div class="planet ringed"></div>
+        <div class="moon"></div>
+        
+        <!-- Stars will be added dynamically via JavaScript -->
+    </div>
+
+    <div class="container">
+        <div class="app-wrapper">
+            <div class="pomodoro-section">
+                <h2>Pomodoro Timer</h2>
+                <div class="timer-display">
+                    <div class="flipClock">
+                        <!-- Minutes -->
+                        <div class="flipUnit minutes-tens">
+                            <div class="flipCard top">
+                                <div class="flipNumber">2</div>
+                            </div>
+                            <div class="flipCard bottom">
+                                <div class="flipNumber">2</div>
+                            </div>
+                        </div>
+                        <div class="flipUnit minutes-ones">
+                            <div class="flipCard top">
+                                <div class="flipNumber">5</div>
+                            </div>
+                            <div class="flipCard bottom">
+                                <div class="flipNumber">5</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Divider -->
+                        <div class="flipDivider">:</div>
+                        
+                        <!-- Seconds -->
+                        <div class="flipUnit seconds-tens">
+                            <div class="flipCard top">
+                                <div class="flipNumber">0</div>
+                            </div>
+                            <div class="flipCard bottom">
+                                <div class="flipNumber">0</div>
+                            </div>
+                        </div>
+                        <div class="flipUnit seconds-ones">
+                            <div class="flipCard top">
+                                <div class="flipNumber">0</div>
+                            </div>
+                            <div class="flipCard bottom">
+                                <div class="flipNumber">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timer-controls">
+                    <button id="start-timer" class="timer-btn">
+                        <i class="fas fa-play"></i> Start
+                    </button>
+                    <button id="pause-timer" class="timer-btn" disabled>
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                    <button id="reset-timer" class="timer-btn">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+                <div class="timer-mode">
+                    <button id="work-mode" class="mode-btn active">Work (25m)</button>
+                    <button id="break-mode" class="mode-btn">Break (5m)</button>
+                </div>
+                <div class="timer-settings">
+                    <button id="settings-btn" class="settings-btn">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+                <div class="statistics">
+                    <div class="stat-item">
+                        <span class="stat-label">Focus Time:</span>
+                        <span id="focus-time">0h 0m</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Completed Pomodoros:</span>
+                        <span id="completed-pomodoros">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="todo-section">
+                <h2>Todo List</h2>
+                <div class="todo-filters">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all">
+                            <i class="fas fa-tasks"></i> All
+                        </button>
+                        <button class="filter-btn" data-filter="active">
+                            <i class="fas fa-clock"></i> Active
+                        </button>
+                        <button class="filter-btn" data-filter="completed">
+                            <i class="fas fa-check-circle"></i> Completed
+                        </button>
+                    </div>
+                    <div class="category-filter">
+                        <select id="category-select">
+                            <option value="all">📋 All Categories</option>
+                            <option value="work">💼 Work</option>
+                            <option value="personal">🏠 Personal</option>
+                            <option value="study">📚 Study</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-section">
+                    <input type="text" id="todo-input" placeholder="What needs to be done?">
+                    <select id="task-priority">
+                        <option value="low">🟢 Low Priority</option>
+                        <option value="medium">🟡 Medium Priority</option>
+                        <option value="high">🔴 High Priority</option>
+                    </select>
+                    <select id="task-category">
+                        <option value="work">💼 Work</option>
+                        <option value="personal">🏠 Personal</option>
+                        <option value="study">📚 Study</option>
+                    </select>
+                    <button id="add-button">
+                        <i class="fas fa-plus"></i> Add Task
+                    </button>
+                </div>
+                <div class="todo-list" id="todo-list">
+                    <!-- Empty state -->
+                    <div class="empty-state" id="empty-state" style="display: none;">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>No tasks yet! Add a new task to get started.</p>
+                    </div>
+                    <!-- Todo items will be added here dynamically -->
+                </div>
+                <div class="todo-summary">
+                    <div class="progress-bar">
+                        <div class="progress" id="completion-progress"></div>
+                    </div>
+                    <span id="completion-text">0% completed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <h3>Timer Settings</h3>
+            <div class="setting-group">
+                <label>Work Duration (minutes)</label>
+                <input type="number" id="work-duration" min="1" max="60" value="25">
+            </div>
+            <div class="setting-group">
+                <label>Break Duration (minutes)</label>
+                <input type="number" id="break-duration" min="1" max="30" value="5">
+            </div>
+            <div class="setting-group">
+                <label>Long Break Duration (minutes)</label>
+                <input type="number" id="long-break-duration" min="1" max="45" value="15">
+            </div>
+            <div class="setting-group">
+                <label>Pomodoros until Long Break</label>
+                <input type="number" id="pomodoros-until-long-break" min="1" max="10" value="4">
+            </div>
+            <div class="setting-group">
+                <label>Auto-start Breaks</label>
+                <input type="checkbox" id="auto-start-breaks">
+            </div>
+            <div class="modal-buttons">
+                <button id="save-settings">Save</button>
+                <button id="close-settings">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
