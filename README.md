@@ -35,4 +35,4 @@ A sleek and minimal productivity web app that combines the power of the **Pomodo
 
 ## 📸 UI Preview
 
-![Screenshot](./path-to-screenshot.png)
+![Screenshot](shiva.png)
