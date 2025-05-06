@@ -31,44 +31,7 @@
                 <h2>Pomodoro Timer</h2>
                 <div class="timer-display">
                     <div class="flipClock">
-                        <!-- Minutes -->
-                        <div class="flipUnit minutes-tens">
-                            <div class="flipCard top">
-                                <div class="flipNumber">2</div>
-                            </div>
-                            <div class="flipCard bottom">
-                                <div class="flipNumber">2</div>
-                            </div>
-                        </div>
-                        <div class="flipUnit minutes-ones">
-                            <div class="flipCard top">
-                                <div class="flipNumber">5</div>
-                            </div>
-                            <div class="flipCard bottom">
-                                <div class="flipNumber">5</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Divider -->
-                        <div class="flipDivider">:</div>
-                        
-                        <!-- Seconds -->
-                        <div class="flipUnit seconds-tens">
-                            <div class="flipCard top">
-                                <div class="flipNumber">0</div>
-                            </div>
-                            <div class="flipCard bottom">
-                                <div class="flipNumber">0</div>
-                            </div>
-                        </div>
-                        <div class="flipUnit seconds-ones">
-                            <div class="flipCard top">
-                                <div class="flipNumber">0</div>
-                            </div>
-                            <div class="flipCard bottom">
-                                <div class="flipNumber">0</div>
-                            </div>
-                        </div>
+                        <span id="digital-timer">25:00</span>
                     </div>
                 </div>
                 <div class="timer-controls">
@@ -117,26 +80,9 @@
                             <i class="fas fa-check-circle"></i> Completed
                         </button>
                     </div>
-                    <div class="category-filter">
-                        <select id="category-select">
-                            <option value="all">📋 All Categories</option>
-                            <option value="work">💼 Work</option>
-                            <option value="personal">🏠 Personal</option>
-                            <option value="study">📚 Study</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="input-section">
                     <input type="text" id="todo-input" placeholder="What needs to be done?">
-                    <select id="task-priority">
-                        <option value="low">🟢 Low Priority</option>
-                        <option value="medium">🟡 Medium Priority</option>
-                        <option value="high">🔴 High Priority</option>
-                    </select>
-                    <select id="task-category">
-                        <option value="personal">🏠 Personal</option>
-                        <option value="study">📚 Study</option>
-                    </select>
                     <button id="add-button">
                         <i class="fas fa-plus"></i> Add Task
                     </button>

@@ -35,9 +35,6 @@ const focusTimeDisplay = document.getElementById('focus-time');
 const completedPomodorosDisplay = document.getElementById('completed-pomodoros');
 const completionProgress = document.getElementById('completion-progress');
 const completionText = document.getElementById('completion-text');
-const categorySelect = document.getElementById('category-select');
-const taskPriority = document.getElementById('task-priority');
-const taskCategory = document.getElementById('task-category');
 const filterButtons = document.querySelectorAll('.filter-btn');
 
 // Load data from localStorage
@@ -65,44 +62,10 @@ const flipUnits = {
 function updateTimerDisplay() {
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
-    
-    const timeDigits = {
-        minutesTens: Math.floor(minutes / 10),
-        minutesOnes: minutes % 10,
-        secondsTens: Math.floor(seconds / 10),
-        secondsOnes: seconds % 10
-    };
-
-    Object.entries(timeDigits).forEach(([unit, value]) => {
-        const flipUnit = flipUnits[unit];
-        const currentValue = parseInt(flipUnit.querySelector('.top .flipNumber').textContent);
-        
-        if (currentValue !== value) {
-            // Update the numbers
-            const cards = flipUnit.querySelectorAll('.flipCard');
-            cards.forEach(card => {
-                const numbers = card.querySelectorAll('.flipNumber');
-                numbers.forEach(number => {
-                    number.textContent = value;
-                });
-            });
-
-            // Add flip animation
-            const topCard = flipUnit.querySelector('.top');
-            const bottomCard = flipUnit.querySelector('.bottom');
-            
-            // Remove existing animation classes
-            topCard.classList.remove('flip-top');
-            bottomCard.classList.remove('flip-bottom');
-            
-            // Trigger reflow
-            void topCard.offsetWidth;
-            
-            // Add animation classes
-            topCard.classList.add('flip-top');
-            bottomCard.classList.add('flip-bottom');
-        }
-    });
+    const digitalTimer = document.getElementById('digital-timer');
+    if (digitalTimer) {
+        digitalTimer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
 }
 
 function startTimer() {
@@ -233,11 +196,8 @@ function addTodo() {
             id: Date.now(),
             text: todoText,
             completed: false,
-            priority: taskPriority.value,
-            category: taskCategory.value,
             createdAt: new Date().toISOString()
         };
-        
         todos.push(todo);
         renderTodo(todo);
         saveTodos();
@@ -247,12 +207,11 @@ function addTodo() {
 
 function renderTodo(todo) {
     const todoItem = document.createElement('div');
-    todoItem.classList.add('todo-item', `priority-${todo.priority}`);
+    todoItem.classList.add('todo-item');
     if (todo.completed) todoItem.classList.add('completed');
     
     todoItem.innerHTML = `
         <span class="todo-text">${todo.text}</span>
-        <span class="todo-category">${todo.category}</span>
         <div class="todo-actions">
             <button class="complete-btn" onclick="toggleTodo(${todo.id})">
                 <i class="fas ${todo.completed ? 'fa-undo' : 'fa-check'}"></i>
@@ -284,20 +243,12 @@ function deleteTodo(id) {
 function renderTodos() {
     todoList.innerHTML = '';
     const currentFilter = document.querySelector('.filter-btn.active').dataset.filter;
-    const currentCategory = categorySelect.value;
-    
     let filteredTodos = todos;
-    
     if (currentFilter === 'active') {
         filteredTodos = todos.filter(todo => !todo.completed);
     } else if (currentFilter === 'completed') {
         filteredTodos = todos.filter(todo => todo.completed);
     }
-    
-    if (currentCategory !== 'all') {
-        filteredTodos = filteredTodos.filter(todo => todo.category === currentCategory);
-    }
-    
     filteredTodos.forEach(renderTodo);
 }
 
@@ -332,10 +283,11 @@ filterButtons.forEach(button => {
     });
 });
 
-categorySelect.addEventListener('change', renderTodos);
-
 // Initial setup
-timeLeft = settings.workDuration * 60;
+if (isNaN(settings.workDuration) || !settings.workDuration) settings.workDuration = 25;
+if (isNaN(settings.breakDuration) || !settings.breakDuration) settings.breakDuration = 5;
+if (isNaN(settings.longBreakDuration) || !settings.longBreakDuration) settings.longBreakDuration = 15;
+if (typeof timeLeft === 'undefined' || isNaN(timeLeft)) timeLeft = settings.workDuration * 60;
 updateTimerDisplay();
 updateStats();
 renderTodos();

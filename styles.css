@@ -42,13 +42,13 @@ body {
 }
 
 .app-wrapper {
-    background: rgba(23, 25, 35, 0.8);
+    background: rgba(23, 25, 35, 0.5);
     padding: 30px;
     border-radius: 20px;
     box-shadow: var(--card-shadow);
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -75,92 +75,32 @@ h2, h3 {
 
 .flipClock {
     display: flex;
-    gap: 10px;
-    perspective: 400px;
-}
-
-.flipUnit {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    background: #333;
-    border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
-}
-
-.flipCard {
-    position: relative;
-    width: 100%;
-    height: 50%;
-    overflow: hidden;
-    border-radius: 5px;
-}
-
-.flipCard.top {
-    background: #444;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.3);
-}
-
-.flipCard.bottom {
-    background: #333;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.flipNumber {
-    position: absolute;
-    width: 100%;
-    height: 200%;
-    left: 0;
-    text-align: center;
-    font-size: 60px;
-    font-weight: bold;
-    color: #fff;
-    background: #333;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    background: rgba(24, 28, 32, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    padding: 20px 40px;
+    font-family: 'Roboto Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 72px;
+    color: #fff;
+    letter-spacing: 8px;
+    text-shadow: none;
+    min-width: 340px;
+    gap: 0;
 }
 
-.top .flipNumber {
-    background: #444;
-    line-height: 200%;
-}
-
-.bottom .flipNumber {
-    bottom: 0;
-    line-height: 0;
+.flipUnit, .flipCard, .flipNumber, .top, .bottom {
+    all: unset;
 }
 
 .flipDivider {
     color: #fff;
-    font-size: 60px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
+    font-size: 72px;
+    font-family: inherit;
+    text-shadow: none;
     padding: 0 10px;
-}
-
-@keyframes flipTop {
-    0% { transform: rotateX(0deg); }
-    100% { transform: rotateX(-90deg); }
-}
-
-@keyframes flipBottom {
-    0% { transform: rotateX(90deg); }
-    100% { transform: rotateX(0deg); }
-}
-
-.flip-top {
-    transform-origin: bottom;
-    animation: flipTop 0.3s ease-in;
-}
-
-.flip-bottom {
-    transform-origin: top;
-    animation: flipBottom 0.3s ease-out;
+    font-weight: bold;
 }
 
 .timer-controls {
@@ -234,7 +174,7 @@ h2, h3 {
 
 /* Todo List Styles */
 .todo-section {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     padding: 30px;
     border-radius: 15px;
     transition: all 0.3s ease;
